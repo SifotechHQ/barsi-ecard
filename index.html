@@ -114,9 +114,15 @@
   .p-flank.l{left:-60px}
   .p-flank.r{right:-60px;transform:scaleX(-1)}
 
+  .amb{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
   .diya{margin:6px auto 0;position:relative;width:88px;height:66px}
-  .diya canvas{position:absolute;left:50%;transform:translateX(-50%);top:-2px}
-  .diya svg{position:absolute;bottom:0;left:0;width:96px}
+  .diya::before{content:"";position:absolute;left:50%;top:-18px;transform:translateX(-50%);
+    width:108px;height:108px;border-radius:50%;z-index:0;pointer-events:none;
+    background:radial-gradient(circle,rgba(255,196,96,.34),rgba(255,180,80,.12) 45%,transparent 68%)}
+  html.js .diya::before{animation:diyaGlow 3.4s ease-in-out infinite}
+  .diya canvas{position:absolute;left:50%;transform:translateX(-50%);top:-2px;z-index:1}
+  .diya svg{position:absolute;bottom:0;left:0;width:96px;z-index:1}
+  @keyframes diyaGlow{0%,100%{opacity:.6;transform:translateX(-50%) scale(.92)}50%{opacity:1;transform:translateX(-50%) scale(1.06)}}
 
   .name-pa{font-family:var(--gur);font-size:28px;font-weight:800;line-height:1.2;margin-top:8px;
     background:linear-gradient(180deg,#CF9A48,#8A6224);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -183,6 +189,7 @@
 <div class="stage">
   <div class="card">
     <div class="frame-in"></div>
+    <canvas class="amb" id="amb"></canvas>
     <div class="floral cnr tl"></div>
     <div class="floral cnr tr"></div>
     <div class="floral cnr bl"></div>
@@ -291,6 +298,42 @@
   }
   if(reduce) flame();
 
+  /* gentle drifting flower petals (browser only, subtle & solemn) */
+  var amb=document.getElementById('amb'), ax=amb&&amb.getContext('2d'), petals=[], ambRun=false;
+  function seedPetals(){
+    var w=amb.offsetWidth, h=amb.offsetHeight; amb.width=w; amb.height=h;
+    var n=Math.max(9,Math.min(16,Math.round(h/170)));
+    petals=[];
+    for(var i=0;i<n;i++){
+      petals.push({x:Math.random()*w, y:Math.random()*h, r:5+Math.random()*5,
+        vy:10+Math.random()*14, sway:14+Math.random()*20, ph:Math.random()*6.28,
+        rot:Math.random()*6.28, vr:(Math.random()-0.5)*0.4, op:0.12+Math.random()*0.16});
+    }
+  }
+  var lastT=0;
+  function drawPetals(ts){
+    if(!ambRun) return;
+    var w=amb.width, h=amb.height, dt=lastT?Math.min(0.05,(ts-lastT)/1000):0.016; lastT=ts;
+    ax.clearRect(0,0,w,h);
+    for(var i=0;i<petals.length;i++){
+      var p=petals[i];
+      p.y+=p.vy*dt; p.ph+=dt*0.7; p.rot+=p.vr*dt;
+      var x=p.x+Math.sin(p.ph)*p.sway;
+      if(p.y-10>h){ p.y=-10; p.x=Math.random()*w; }
+      ax.save(); ax.translate(x,p.y); ax.rotate(p.rot); ax.globalAlpha=p.op;
+      ax.fillStyle='#fff';
+      ax.beginPath(); ax.ellipse(0,0,p.r*0.62,p.r,0,0,6.2832); ax.fill();
+      ax.globalAlpha=p.op*0.5; ax.fillStyle='#e9dcc0';
+      ax.beginPath(); ax.ellipse(0,p.r*0.3,p.r*0.4,p.r*0.6,0,0,6.2832); ax.fill();
+      ax.restore();
+    }
+    requestAnimationFrame(drawPetals);
+  }
+  function startPetals(){
+    if(reduce||!amb||!ax||ambRun) return;
+    seedPetals(); ambRun=true; requestAnimationFrame(drawPetals);
+  }
+
   var audio=document.getElementById('jaap'), on=true, started=false, fadeT=null;
   function startAudio(){
     if(started||!audio) return; started=true;
@@ -310,6 +353,7 @@
     gate.classList.add('gone');
     snd.classList.add('show');
     if(!reduce)requestAnimationFrame(flame);
+    startPetals();
     startAudio();
     items.slice(0,6).forEach(function(el){el.classList.add('in');});
   }
