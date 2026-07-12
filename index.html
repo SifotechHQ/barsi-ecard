@@ -126,12 +126,15 @@
   .invite{font-family:var(--gur);font-size:16px;line-height:1.68;color:#443e5a;margin:14px auto 0;max-width:400px}
   .invite b{font-weight:800;color:var(--ink)}
 
-  .events{margin:16px auto 0;max-width:400px;display:flex;flex-direction:column;gap:12px}
-  .ev .k{font-family:var(--gur);font-size:16px;font-weight:800;letter-spacing:.3px;color:var(--gold-d)}
-  .ev .v{font-family:var(--gur);font-size:15.5px;color:#443e5a;margin-top:3px}
-  .ev .v .d{color:var(--gold);margin:0 8px;font-size:12px;vertical-align:2px}
-  .ev+.ev{position:relative;padding-top:11px}
-  .ev+.ev::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:44px;height:1px;background:rgba(193,145,60,.4)}
+  .events{margin:14px auto 0;max-width:412px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .ev{border:1px solid rgba(193,145,60,.4);border-radius:9px;padding:10px 10px;
+    background:rgba(255,255,255,.4);text-align:center;min-width:0;
+    display:flex;flex-direction:column;justify-content:center}
+  .ev.wide{grid-column:1 / -1}
+  .ev .k{font-family:var(--gur);font-size:15px;font-weight:800;color:var(--gold-d);line-height:1.25}
+  .ev .v{font-family:var(--gur);font-size:14px;color:#443e5a;margin-top:3px;line-height:1.4}
+  .ev .en-v{font-family:var(--serif);font-style:italic;font-size:12.5px;color:#6a6683;margin-top:2px;line-height:1.35}
+  .ev .v .d{color:var(--gold);margin:0 5px;font-size:10px;vertical-align:2px}
 
   .divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px 0 0;color:var(--gold)}
   .divider span{height:1px;width:70px;background:linear-gradient(90deg,transparent,var(--gold))}
@@ -231,22 +234,18 @@
       </div>
 
       <div class="reveal events">
-        <div class="ev"><div class="k gur">ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ ਆਰੰਭ</div>
-          <div class="en-lbl">Akhand Path Sahib · Commencement</div>
+        <div class="ev wide"><div class="k gur">ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ ਆਰੰਭ</div>
           <div class="v gur">ਮੰਗਲਵਾਰ, 14 ਜੁਲਾਈ 2026 <span class="d">◆</span> ਸਵੇਰੇ 11:00 ਵਜੇ</div>
-          <div class="en-val">Tuesday, 14 July 2026 · 11:00 AM</div></div>
-        <div class="ev"><div class="k gur">ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ ਦੇ ਭੋਗ</div>
-          <div class="en-lbl">Akhand Path Sahib · Bhog</div>
+          <div class="en-v">Tuesday, 14 July 2026 · 11:00 AM</div></div>
+        <div class="ev wide"><div class="k gur">ਸ੍ਰੀ ਅਖੰਡ ਪਾਠ ਸਾਹਿਬ ਦੇ ਭੋਗ</div>
           <div class="v gur">ਵੀਰਵਾਰ, 16 ਜੁਲਾਈ 2026 <span class="d">◆</span> ਸਵੇਰੇ 9:00 ਵਜੇ</div>
-          <div class="en-val">Thursday, 16 July 2026 · 9:00 AM</div></div>
+          <div class="en-v">Thursday, 16 July 2026 · 9:00 AM</div></div>
         <div class="ev"><div class="k gur">ਕੀਰਤਨ</div>
-          <div class="en-lbl">Kirtan</div>
           <div class="v gur">ਭੋਗ ਉਪਰੰਤ ਕੀਰਤਨ ਦਰਬਾਰ</div>
-          <div class="en-val">Kirtan Darbar following the Bhog</div></div>
+          <div class="en-v">Kirtan Darbar after Bhog</div></div>
         <div class="ev"><div class="k gur">ਗੁਰੂ ਕਾ ਲੰਗਰ</div>
-          <div class="en-lbl">Guru Ka Langar</div>
-          <div class="v gur">ਗੁਰੂ ਕਾ ਲੰਗਰ ਵਰਤਾਇਆ ਜਾਵੇਗਾ।</div>
-          <div class="en-val">Langar will be served</div></div>
+          <div class="v gur">ਗੁਰੂ ਕਾ ਲੰਗਰ ਵਰਤਾਇਆ ਜਾਵੇਗਾ</div>
+          <div class="en-v">Langar will be served</div></div>
       </div>
 
       <div class="reveal divider"><span></span><b>❖</b><span></span></div>
